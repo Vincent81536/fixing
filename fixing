@@ -86,6 +86,23 @@ game.Players.LocalPlayer.Character.Archivable = false
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
 Character = Reanimate:GetCharacter()
 
+-- ✅ Sync vị trí rig clone về nhân vật thật để người khác thấy mình
+task.spawn(function()
+	while true do
+		task.wait(0.1)
+		local fakeChar = Character
+		local realChar = game.Players.LocalPlayer.Character
+		if fakeChar and realChar then
+			local fakeRoot = fakeChar:FindFirstChild("HumanoidRootPart")
+			local realRoot = realChar:FindFirstChild("HumanoidRootPart")
+			if fakeRoot and realRoot then
+				realRoot.CFrame = fakeRoot.CFrame
+			end
+		end
+	end
+end)
+
+
 -- ✅ Khoá vật lý và chống giật rig
 for _, part in pairs(Character:GetDescendants()) do
 	if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
