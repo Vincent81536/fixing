@@ -5,45 +5,71 @@ if Reanimate == "Hatless" then
 local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/hatless/refs/heads/main/hatless"))()
 Character = Hatless.FakeCharacter
 elseif getgenv().Framework == "Krypton" then
-KryptonConfiguration = {
-WaitTime = 0.251,
-FakeRigScale = 1,
-DestroyHeightOffset = 50,
-TeleportOffsetRadius = 20,
-RefitHatCount = 2,
-RigName = "Tetris",
-ReturnOnDeath = true,
-Reclaim = false,
-Refit = true,
-SetCharacter = true,
-Animations = true,
-NoCollisions = true,
-AntiVoiding = false,
-SetSimulationRadius = true,
-DisableCharacterScripts = true,
-AccessoryFallbackDefaults = true,
-OverlayFakeCharacter = false,
-LimitHatsPerLimb = false,
-NoBodyNearby = true,
-PermanentDeath = true,
-Hats = {
-["Torso"] = {
-{Texture = "131014325980101", Mesh = "127552124837034", Name = "Accessory (Toorso)", Offset = CFrame.Angles(0, 0, 0)},
-},
-["Right Arm"] = {
-{Texture = "17374768001", Mesh = "17374767929", Name = "Accessory (RARM)", Offset = CFrame.Angles(0, 0, 1.57)},
-},
-["Left Arm"] =  {
-{Texture = "17374768001", Mesh = "17374767929", Name = "Accessory (LARM)", Offset = CFrame.Angles(0, 0, 1.57)},
-},
-["Right Leg"] = {
-{Texture = "17387586304", Mesh = "17387586286", Name = "Accessory (LLeg)", Offset = CFrame.Angles(0, 0, 1.57)},
-},
-["Left Leg"] = {
-{Texture = "17387586304", Mesh = "17387586286", Name = "Accessory (rightleg)", Offset = CFrame.Angles(0, 1.57, 1.57)},
-},
-},
-}
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    char.Archivable = true
+
+    -- Tạo rig không cần mũ
+    local function createPart(name, meshId, textureId)
+        local acc = Instance.new("Accessory")
+        acc.Name = name
+
+        local handle = Instance.new("Part")
+        handle.Name = "Handle"
+        handle.Size = Vector3.new(1,1,1)
+        handle.Anchored = false
+        handle.CanCollide = false
+        handle.Massless = true
+        handle.Transparency = 1
+        handle.Parent = acc
+
+        local mesh = Instance.new("SpecialMesh")
+        mesh.MeshId = "rbxassetid://" .. meshId
+        mesh.TextureId = "rbxassetid://" .. textureId
+        mesh.Parent = handle
+
+        acc.Parent = char
+        return handle
+    end
+
+    local function attachLimb(part, target)
+        local a1 = Instance.new("Attachment", part)
+        local a2 = Instance.new("Attachment", target)
+
+        local alignPos = Instance.new("AlignPosition", part)
+        alignPos.Attachment0 = a1
+        alignPos.Attachment1 = a2
+        alignPos.RigidityEnabled = true
+        alignPos.MaxForce = math.huge
+        alignPos.Responsiveness = 200
+
+        local alignOri = Instance.new("AlignOrientation", part)
+        alignOri.Attachment0 = a1
+        alignOri.Attachment1 = a2
+        alignOri.RigidityEnabled = true
+        alignOri.MaxTorque = math.huge
+        alignOri.Responsiveness = 200
+    end
+
+    -- MeshId/TextureId từ file bạn gửi
+    local limbs = {
+        { name = "Torso", limb = "UpperTorso", mesh = "127552124837034", tex = "131014325980101" },
+        { name = "LeftArm", limb = "LeftUpperArm", mesh = "127552099169285", tex = "131014351553580" },
+        { name = "RightArm", limb = "RightUpperArm", mesh = "127552092594828", tex = "131014345438214" },
+        { name = "LeftLeg", limb = "LeftUpperLeg", mesh = "127552109145440", tex = "131014333823383" },
+        { name = "RightLeg", limb = "RightUpperLeg", mesh = "127552103249321", tex = "131014329470411" },
+    }
+
+    -- Tạo rig
+    for _, limb in ipairs(limbs) do
+        local part = createPart(limb.name, limb.mesh, limb.tex)
+        local target = char:FindFirstChild(limb.limb)
+        if target then
+            attachLimb(part, target)
+        end
+    end
+end
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
 Character = Reanimate:GetCharacter()
 elseif Reanimate == "Emperyean" then
