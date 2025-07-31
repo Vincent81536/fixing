@@ -1,8 +1,9 @@
+
 Reanimate = getgenv().Framework
 local Character = nil
 
 if Reanimate == "Hatless" then
-local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/hatless/refs/heads/main/hatless"))()
+local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/MelonsStuff/DisbeliefHub/refs/heads/main/Reanimate/Hatless.lua"))()
 Character = Hatless.FakeCharacter
 elseif getgenv().Framework == "Krypton" then
 KryptonConfiguration = {
@@ -64,10 +65,34 @@ Hats = {
 },
 },
 }
-local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
+local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/KadeTheExploiter/Krypton/main/Module.luau"))()
 Character = Reanimate:GetCharacter()
+
+task.delay(1, function()
+    for _, part in ipairs(Character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.Anchored = false
+            part.CanCollide = false
+            part.Massless = true
+            part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+        end
+    end
+end)
+
+for _, part in ipairs(Character:GetDescendants()) do
+    if part:IsA("BasePart") then
+        part.Touched:Connect(function(hit)
+            if hit:IsA("BasePart") then
+                hit.Velocity = Vector3.zero
+            end
+        end)
+    end
+end
+
+Character.BreakJointsOnDeath = false
+
 elseif Reanimate == "Emperyean" then
-local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module-/refs/heads/main/EmperyeanReanimate"))()
+local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/MelonsStuff/DisbeliefHub/refs/heads/main/Reanimate/Empyrean.lua"))()
 Reanimate.Start({
 Accessories = {
 -- SB Rig
@@ -186,15 +211,8 @@ return end
 
 local RootPart = Character.HumanoidRootPart
 local Jumped,Falled,Idled,Walked = false,false,false,false
-local AnimatorModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/AnimatorModule/refs/heads/main/AnimatorModule"))()
+local AnimatorModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/MelonsStuff/DisbeliefHub/refs/heads/main/Scripts/AnimatorModule.lua"))()
 local Anims = Instance.new("Folder", workspace)
-
-
-local function SafeCheckGroundPosition()
-    if RootPart.Position.Y < -5 then -- adjust this Y threshold if needed
-        RootPart.CFrame = CFrame.new(RootPart.Position.X, 5, RootPart.Position.Z)
-    end
-end
 
 function Raycast(POSITION, DIRECTION, RANGE, IGNOREDECENDANTS)
 return workspace:FindPartOnRay(Ray.new(POSITION, DIRECTION.unit * RANGE), IGNOREDECENDANTS)
@@ -244,15 +262,8 @@ if game.CoreGui:FindFirstChild("FluxLib") then
 game.CoreGui:FindFirstChild("FluxLib"):Destroy()
 end
 
-local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/hub/main/hubtest"))()
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/fluxlib.txt"))()
 local GUI = Lib:Window("Disbelief Hub", "Irony at its finest.", Color3.fromRGB(0, 0, 0), Enum.KeyCode.LeftControl)
--- ⬇️ Center GUI when it spawns
-task.delay(0.5, function()
-    local fluxUI = game.CoreGui:FindFirstChild("FluxLib")
-    if fluxUI and fluxUI:FindFirstChild("Main") then
-        fluxUI.Main.Position = UDim2.new(0.5, -fluxUI.Main.Size.X.Offset/2, 0.5, -fluxUI.Main.Size.Y.Offset/2)
-    end
-end)
 local DancesA = GUI:Tab("Animations - R6 Dances", "http://www.roblox.com/asset/?id=6023426915")
 local DancesB = GUI:Tab("Animations - Forsaken", "http://www.roblox.com/asset/?id=6023426915")
 
@@ -266,7 +277,6 @@ local R6Dances = {
 {Name = "Internet Yamero", ID = 99905571448278},
 {Name = "Two", ID = 137845929482571},
 {Name = "Hakari", ID = 92699725136780},
-{Name = "Hakari V2", ID = 139107159497423, Speed = 3},
 {Name = "Heavy Love", ID = 85856686932206},
 {Name = "Oh Who Is You", ID = 80777442674443},
 {Name = "BHop", ID = 82234401429055},
@@ -479,15 +489,6 @@ local Forsaken = {
 {Name = "Silly Billy", ID = 107464355830477},
 {Name = "Subterfuge", ID = 87482480949358},
 {Name = "Richard Watterson (the hero)", ID = 74012585744751},
-{Name = "Immaterial", ID = 90127032448242},
-{Name = "Run away", ID = 131562546189485},
-{Name = "Run away V2", ID = 119147810948063},
-{Name = "Headlock", ID = 97992194141034},
-{Name = "Gangdance", ID = 121267065315946},
-{Name = "Bluelock", ID = 76975616044095},
-{Name = "test1", ID = 110536141087568},
-{Name = "test2", ID = 103112841595182},
-{Name = "tst3", ID = 95650849617284},
 }
 
 for i, v in pairs(Forsaken) do
@@ -583,279 +584,3 @@ Tapping microphone "Hello?, helloooo?? Is this thing on?" —static crackles- �
 So, people, here you go. Another ‘Baseless Accusations & Keyboard Rage!‘ episode. Stay tuned because we are heading straight into the mind-blowing world of ‘People Who Think Copy-Pasting a GitHub Repo Makes Them Elite Hackers!”
 —applause track plays – Until next time!
 ]]
-
-
-
--- Register the Run animation
-CreateAnimation("Run", 98913971068661)
-
--- Track run state
-local isRunning = false
-local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-
--- Persistent GUI for Run Toggle
-local function createRunToggleUI()
-    if game.CoreGui:FindFirstChild("RunToggleUI") then
-        game.CoreGui.RunToggleUI:Destroy()
-    end
-
-    local RunToggleUI = Instance.new("ScreenGui")
-    RunToggleUI.Name = "RunToggleUI"
-    RunToggleUI.ResetOnSpawn = false
-    RunToggleUI.Parent = game.CoreGui
-
-    local RunButton = Instance.new("TextButton")
-    RunButton.Size = UDim2.new(0, 100, 0, 40)
-    RunButton.Position = UDim2.new(0, 20, 0.5, 0)
-    RunButton.Text = "Run"
-    RunButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    RunButton.TextColor3 = Color3.new(1, 1, 1)
-    RunButton.Font = Enum.Font.GothamBold
-    RunButton.TextSize = 18
-    RunButton.Draggable = true
-    RunButton.Active = true
-    RunButton.Parent = RunToggleUI
-
-    RunButton.MouseButton1Click:Connect(function()
-	isRunning = not isRunning
-	RunButton.Text = isRunning and "Walk" or "Run"
-	Humanoid.WalkSpeed = isRunning and 30 or 16
-
-	-- Immediately play run animation if toggled and moving
-	if isRunning and Humanoid.MoveDirection.Magnitude > 0 then
-		StopAnim(Character, Anims.Walk)
-		PlayAnim(Character, Anims.Run, 0.1, 1)
-	elseif not isRunning and Humanoid.MoveDirection.Magnitude > 0 then
-		StopAnim(Character, Anims.Run)
-		PlayAnim(Character, Anims.Walk, 0.1, 1)
-	end
-end)
-
-end
-
-createRunToggleUI()
-
--- Modify heartbeat to play run animation only during movement if run mode is enabled
-game:GetService("RunService").Heartbeat:Connect(function()
-    for _, v in pairs(Humanoid:GetPlayingAnimationTracks()) do
-        v:Stop(0)
-    end
-
-    local HitFloor = Raycast(RootPart.Position, Vector3.new(0, -1, 0), 4, Character)
-    local TorsoVelocity = RootPart.Velocity.Magnitude
-    local TorsoVerticalVelocity = RootPart.Velocity.Y
-
-    if TorsoVerticalVelocity > 1 and not HitFloor then
-        if not Jumped then
-            Jumped = true
-            PlayAnim(Character, Anims.Jump, 0.1, 1)
-        end
-        Falled, Idled, Walked = false, false, false
-    elseif TorsoVerticalVelocity < 1 and not HitFloor then
-        if not Falled then
-            Falled = true
-            PlayAnim(Character, Anims.Fall, 0.1, 1)
-        end
-        Jumped, Idled, Walked = false, false, false
-    elseif TorsoVelocity < 1 and HitFloor then
-        if not Idled then
-            Idled = true
-            PlayAnim(Character, Anims.Idle, 0.1, 0.1)
-        end
-        Jumped, Falled, Walked = false, false, false
-    elseif TorsoVelocity > 1 and HitFloor then
-        if isRunning then
-            if not Walked then
-                Walked = true
-                PlayAnim(Character, Anims.Run, 0.1, 1)
-            end
-        else
-            if not Walked then
-                Walked = true
-                PlayAnim(Character, Anims.Walk, 0.1, 1)
-            end
-        end
-        Jumped, Falled, Idled = false, false, false
-    end
-end)
-
--- Add safety check after "Run away V2" ends
-if Anims["Run away V2"] and not Anims["Run away V2"].IsPlaying then
-    SafeCheckGroundPosition()
-end
-
-
-
--- Self-Healing Rig Fix
-
-
--- Auto-fix body parts if they fall apart or drift
-task.spawn(function()
-    while true do
-        if Character and Character:IsDescendantOf(workspace) then
-            for _, part in pairs(Character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    -- Reset physics
-                    part.Velocity = Vector3.zero
-                    part.RotVelocity = Vector3.zero
-                    part.AssemblyLinearVelocity = Vector3.zero
-                    part.AssemblyAngularVelocity = Vector3.zero
-
-                    -- Reset CFrame if detached
-                    if (part.Position - Character.HumanoidRootPart.Position).Magnitude > 15 then
-                        part.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -1)
-                    end
-
-                    -- Ensure client owns it
-                    pcall(function()
-                        part:SetNetworkOwner(game.Players.LocalPlayer)
-                    end)
-                end
-            end
-        end
-        wait(10)
-    end
-end)
-
--- Anti-Shake Rig Stabilizer (patched to skip during Run away V2)
-task.spawn(function()
-    while true do
-        local root = Character:FindFirstChild("HumanoidRootPart")
-        if root and Character:IsDescendantOf(workspace) then
-            if Anims["Run away V2"] and Anims["Run away V2"].IsPlaying then
-                -- Skip stabilization during cinematic animation
-            else
-                local isIdle = (root.Velocity.Magnitude < 0.1 and math.abs(root.Velocity.Y) < 0.1)
-                if isIdle then
-                    for _, part in pairs(Character:GetDescendants()) do
-                        if part:IsA("BasePart") and not part.Anchored then
-                            part.Velocity = Vector3.zero
-                            part.RotVelocity = Vector3.zero
-                            part.AssemblyLinearVelocity = Vector3.zero
-                            part.AssemblyAngularVelocity = Vector3.zero
-                            if (part.Position - root.Position).Magnitude < 5 then
-                                part.CFrame = part.CFrame
-                            end
-                        end
-                    end
-                end
-            end
-        end
-        wait(0.2)
-    end
-end)
-task.spawn(function()
-	while true do
-		if Character and Character:IsDescendantOf(workspace) then
-			local root = Character:FindFirstChild("HumanoidRootPart")
-			local isIdle = (root.Velocity.Magnitude < 0.1 and math.abs(root.Velocity.Y) < 0.1)
-
-			if isIdle then
-				for _, part in pairs(Character:GetDescendants()) do
-					if part:IsA("BasePart") and not part.Anchored then
-						part.Velocity = Vector3.zero
-						part.RotVelocity = Vector3.zero
-						part.AssemblyLinearVelocity = Vector3.zero
-						part.AssemblyAngularVelocity = Vector3.zero
-
-						-- Slight refresh to kill drift
-						if (part.Position - root.Position).Magnitude < 5 then
-							part.CFrame = part.CFrame
-						end
-					end
-				end
-			end
-		end
-		wait(0.2)
-	end
-end)
-
--- Delay until GUI + Forsaken animations are ready
-task.delay(2, function()
-    -- ✅ Search bar for Forsaken tab
-    local ForsakenSearchBox = Instance.new("TextBox")
-    ForsakenSearchBox.PlaceholderText = "Search Forsaken..."
-    ForsakenSearchBox.Size = UDim2.new(0, 200, 0, 30)
-    ForsakenSearchBox.Position = UDim2.new(0, 20, 0, 100)
-    ForsakenSearchBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    ForsakenSearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ForsakenSearchBox.Text = ""
-    ForsakenSearchBox.Parent = game.CoreGui
-
-    local function BuildForsakenTab(filter)
-        if not DancesB then return end
-        DancesB:Clear()
-        for _, v in pairs(Forsaken) do
-            if v.Divider then
-                DancesB:Line()
-            elseif not filter or v.Name:lower():find(filter:lower()) then
-                DancesB:Button(v.Name, v.Name, function()
-                    if not Anims:FindFirstChild(v.Name) then
-                        CreateAnimation(v.Name, v.ID)
-                    end
-                    PlayAnim(Character, Anims[v.Name], 0, v.Speed or 1)
-                end)
-            end
-        end
-    end
-
-    ForsakenSearchBox:GetPropertyChangedSignal("Text"):Connect(function()
-        BuildForsakenTab(ForsakenSearchBox.Text)
-    end)
-
-    BuildForsakenTab(nil)
-end)
-
--- ✅ Minimize button
-local MiniBox = Instance.new("ScreenGui", game.CoreGui)
-MiniBox.Name = "MinimizeDisbeliefHub"
-
-local ToggleButton = Instance.new("TextButton")
-ToggleButton.Text = "GUI"
-ToggleButton.Size = UDim2.new(0, 60, 0, 30)
-ToggleButton.Position = UDim2.new(0, 10, 0.5, 0)
-ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ToggleButton.TextColor3 = Color3.new(1, 1, 1)
-ToggleButton.Draggable = true
-ToggleButton.Active = true
-ToggleButton.Parent = MiniBox
-
-ToggleButton.MouseButton1Click:Connect(function()
-    local Flux = game.CoreGui:FindFirstChild("FluxLib")
-    if Flux then
-        Flux.Enabled = not Flux.Enabled
-    end
-end)
-
-
-
-
--- Hook into animation stop to re-anchor player
-task.delay(2, function()
-    if Anims["Run away V2"] then
-        Anims["Run away V2"].Stopped:Connect(function()
-            RootPart.CFrame = RootPart.CFrame + Vector3.new(0, 3, 0)
-        end)
-    end
-end)
-
-
-task.delay(1, function()
-    for _, part in ipairs(Character:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.Anchored = false
-            part.CanCollide = false
-            part.Massless = true
-            part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
-        end
-    end
-
-    local humanoid = Character:FindFirstChildOfClass("Humanoid")
-    if humanoid then
-        humanoid:ChangeState(Enum.HumanoidStateType.Running)
-    end
-
-    if Character:FindFirstChild("HumanoidRootPart") then
-        Character.HumanoidRootPart.Anchored = false
-    end
-end)
