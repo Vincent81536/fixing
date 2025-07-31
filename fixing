@@ -1,30 +1,18 @@
-task.delay(2, function()
-	local char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module-/refs/heads/main/EmperyeanReanimate"))()
 
-	for _, part in ipairs(char:GetDescendants()) do
-		if part:IsA("BasePart") then
-			part.Anchored = false
-			part.CanCollide = false
-			part.Massless = true
-			part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
-		end
-	end
-
-	local hum = char:FindFirstChildOfClass("Humanoid")
-	if hum then
-		hum:SetStateEnabled(Enum.HumanoidStateType.PlatformStanding, false)
-		hum:SetStateEnabled(Enum.HumanoidStateType.Physics, false)
-		hum:ChangeState(Enum.HumanoidStateType.Running)
-	end
-
-	if char:FindFirstChild("HumanoidRootPart") then
-		char.PrimaryPart = char.HumanoidRootPart
-		char.HumanoidRootPart.Anchored = false
-	end
-
-	pcall(function()
-		if sethiddenproperty then
-			sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-		end
-	end)
-end)
+Reanimate.Start({
+    SetCharacter = true,
+    SetCameraSubject = true,
+    SetCameraType = true,
+    DisableCharacterCollisions = true,
+    DisableRigCollisions = true,
+    SimulationRadius = math.huge,
+    ApplyDescription = true,
+    HideCharacter = Vector3.new(0, -30, 0),
+    BreakJointsDelay = 0,
+    PermanentDeath = true,
+    Refit = true,
+    RigTransparency = 1,
+    HatDrop = false,
+    R15 = false -- set to true if your avatar is R15
+})
