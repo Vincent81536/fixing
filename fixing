@@ -86,6 +86,12 @@ game.Players.LocalPlayer.Character.Archivable = false
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
 Character = Reanimate:GetCharacter()
 
+task.delay(5, function()
+	local real = game.Players.LocalPlayer.Character
+	print("🧩 Real Character Parent:", real and real.Parent)
+end)
+
+
 --- ✅ Đồng bộ nhân vật thật theo rig clone để người khác thấy bạn
 task.spawn(function()
 	while true do
