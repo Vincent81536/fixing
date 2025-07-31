@@ -28,8 +28,6 @@ NoBodyNearby = true,
 PermanentDeath = true,
 Hats = {
 ["Torso"] = {
-{Texture = "4819722776", Mesh = "4819720316", Name = "MeshPartAccessory", Offset = CFrame.Angles(0, 0, -0.25)},
-{Texture = "14251599953", Mesh = "14241018198", Name = "Black", Offset = CFrame.Angles(0, 0, 0)},
 {Texture = "131014325980101", Mesh = "127552124837034", Name = "Accessory (Toorso)", Offset = CFrame.Angles(0, 0, 0)},
 },
 ["Right Arm"] = {
