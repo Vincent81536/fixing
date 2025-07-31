@@ -33,7 +33,7 @@ Hats = {
 ["Right Arm"] = {
 {Texture = "17374768001", Mesh = "17374767929", Name = "Accessory (RARM)", Offset = CFrame.Angles(0, 0, 1.57)},
 },
-["Left Arm"] =  {
+["Left Arm"] = {
 {Texture = "17374768001", Mesh = "17374767929", Name = "Accessory (LARM)", Offset = CFrame.Angles(0, 0, 1.57)},
 },
 ["Right Leg"] = {
@@ -44,6 +44,7 @@ Hats = {
 },
 },
 }
+LoadRig(KryptonConfiguration)
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
 Character = Reanimate:GetCharacter()
 elseif Reanimate == "Emperyean" then
