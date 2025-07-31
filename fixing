@@ -34,7 +34,6 @@ Hats = {
 {Texture = "131014325980101", Mesh = "127552124837034", Name = "Accessory (Toorso)", Offset = CFrame.Angles(0, 0, 0)},
 },
 ["Right Arm"] = {
-{Texture = "13718675555", Mesh = "13718675531", Name = "ToyPistol", Offset = CFrame.new(0, 0, -0.2) * CFrame.Angles(0, math.rad(90), 0)},
 {Texture = "129264637819824", Mesh = "121342985816617", Name = "Accessory (SnakeRight)", Offset = CFrame.Angles(0, 3.15, 1.57)},
 {Texture = "3409604993", Mesh = "3030546036", Name = "InternationalFedora", Offset = CFrame.Angles(-1.57, 0, -1.57)},
 {Texture = "12344206675", Mesh = "12344206657", Name = "Extra Right hand (Blocky)_white", Offset = CFrame.new(-0.05, 0.05, -0.075) * CFrame.Angles(-1.95, 0, 0)},
@@ -68,12 +67,6 @@ Hats = {
 }
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/KadeTheExploiter/Krypton/main/Module.luau"))()
 Character = Reanimate:GetCharacter()
-
-local pistol = Character:FindFirstChild("ToyPistol", true)
-if pistol and pistol:FindFirstChild("Handle") then
-    pistol.Handle.Transparency = 1
-end
-
 elseif Reanimate == "Emperyean" then
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/MelonsStuff/DisbeliefHub/refs/heads/main/Reanimate/Empyrean.lua"))()
 Reanimate.Start({
@@ -567,3 +560,31 @@ Tapping microphone "Hello?, helloooo?? Is this thing on?" —static crackles- �
 So, people, here you go. Another ‘Baseless Accusations & Keyboard Rage!‘ episode. Stay tuned because we are heading straight into the mind-blowing world of ‘People Who Think Copy-Pasting a GitHub Repo Makes Them Elite Hackers!”
 —applause track plays – Until next time!
 ]]
+
+
+function WeldAllParts(model)
+    local root = model:FindFirstChild("HumanoidRootPart") or model.PrimaryPart
+    if not root then return end
+
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("BasePart") and part ~= root then
+            local weld = Instance.new("WeldConstraint")
+            weld.Part0 = root
+            weld.Part1 = part
+            weld.Parent = root
+        end
+    end
+end
+
+
+task.delay(1, function()
+    for _, part in ipairs(Character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.Anchored = false
+            part.CanCollide = false
+            part.Massless = true
+            part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+        end
+    end
+    WeldAllParts(Character)
+end)
