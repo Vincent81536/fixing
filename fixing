@@ -564,12 +564,20 @@ So, people, here you go. Another ‘Baseless Accusations & Keyboard Rage!‘ epi
 
 
 task.delay(1, function()
-    for _, part in ipairs(Character:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.Anchored = false
-            part.CanCollide = false
-            part.Massless = true
-            part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
-        end
-    end
+	for _, part in ipairs(Character:GetDescendants()) do
+		if part:IsA("BasePart") then
+			part.Anchored = false
+			part.CanCollide = false
+			part.Massless = true
+			part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+		end
+	end
+
+	local humanoid = Character:FindFirstChildOfClass("Humanoid")
+	if humanoid then
+		humanoid:ChangeState(Enum.HumanoidStateType.Running)
+	end
+
+	Character.HumanoidRootPart.Anchored = false
 end)
+
