@@ -70,7 +70,7 @@ Character = Reanimate:GetCharacter()
 -- ✅ Khoá vật lý và chống giật rig
 for _, part in pairs(Character:GetDescendants()) do
 	if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
-		part.Anchored = true
+		part.Anchored = false
 		part.Massless = true
 		part.CanCollide = false
 		pcall(function()
