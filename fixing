@@ -86,17 +86,17 @@ game.Players.LocalPlayer.Character.Archivable = false
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
 Character = Reanimate:GetCharacter()
 
--- ✅ Sync vị trí rig clone về nhân vật thật để người khác thấy mình
+--- ✅ Đồng bộ nhân vật thật theo rig clone để người khác thấy bạn
 task.spawn(function()
 	while true do
-		task.wait(0.1)
-		local fakeChar = Character
-		local realChar = game.Players.LocalPlayer.Character
-		if fakeChar and realChar then
-			local fakeRoot = fakeChar:FindFirstChild("HumanoidRootPart")
-			local realRoot = realChar:FindFirstChild("HumanoidRootPart")
-			if fakeRoot and realRoot then
-				realRoot.CFrame = fakeRoot.CFrame
+		task.wait(0.05)
+		local rig = Character
+		local real = game.Players.LocalPlayer.Character
+		if rig and real then
+			local rigRoot = rig:FindFirstChild("HumanoidRootPart")
+			local realRoot = real:FindFirstChild("HumanoidRootPart")
+			if rigRoot and realRoot then
+				realRoot.CFrame = rigRoot.CFrame
 			end
 		end
 	end
