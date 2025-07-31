@@ -64,6 +64,25 @@ Hats = {
 },
 },
 }
+-- 🔁 Clone accessories thành đồ local để tránh giật
+for _, acc in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+	if acc:IsA("Accessory") then
+		local clone = acc:Clone()
+		acc:Destroy()
+		clone.Parent = game.Players.LocalPlayer.Character
+	end
+end
+
+-- 🛡 Chống reset rig sau khi reanimate
+pcall(function()
+	game:GetService("StarterGui"):SetCore("ResetButtonCallback", false)
+end)
+local hum = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid")
+if hum then
+	hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+end
+game.Players.LocalPlayer.Character.Archivable = false
+
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
 Character = Reanimate:GetCharacter()
 
