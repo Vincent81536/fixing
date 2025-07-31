@@ -5,81 +5,55 @@ if Reanimate == "Hatless" then
 local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/hatless/refs/heads/main/hatless"))()
 Character = Hatless.FakeCharacter
 elseif getgenv().Framework == "Krypton" then
-    local Players = game:GetService("Players")
-    local player = Players.LocalPlayer
+    repeat task.wait() until game:IsLoaded()
+    local p = game:GetService("Players").LocalPlayer
+    local c = p.Character or p.CharacterAdded:Wait()
+    c.Archivable = true
 
-    local function waitForLimb(char, name)
-        while not char:FindFirstChild(name) do
-            task.wait()
-        end
-        return char:FindFirstChild(name)
+    local function limb(name, mesh, tex, limb)
+        local a = Instance.new("Accessory")
+        a.Name = name
+        local h = Instance.new("Part")
+        h.Name = "Handle"
+        h.Size = Vector3.new(1,1,1)
+        h.Transparency = 1
+        h.CanCollide = false
+        h.Massless = true
+        h.Parent = a
+
+        local m = Instance.new("SpecialMesh", h)
+        m.MeshId = "rbxassetid://"..mesh
+        m.TextureId = "rbxassetid://"..tex
+
+        a.Parent = c
+        local t = c:FindFirstChild(limb)
+        if not t then return end
+
+        local att1 = Instance.new("Attachment", h)
+        local att2 = Instance.new("Attachment", t)
+
+        local ap = Instance.new("AlignPosition", h)
+        ap.Attachment0 = att1
+        ap.Attachment1 = att2
+        ap.RigidityEnabled = true
+        ap.Responsiveness = 200
+        ap.MaxForce = 999999999
+
+        local ao = Instance.new("AlignOrientation", h)
+        ao.Attachment0 = att1
+        ao.Attachment1 = att2
+        ao.RigidityEnabled = true
+        ao.Responsiveness = 200
+        ao.MaxTorque = 999999999
     end
 
-    local char = player.Character or player.CharacterAdded:Wait()
-    char.Archivable = true
-
-    waitForLimb(char, "UpperTorso")
-    waitForLimb(char, "LeftUpperArm")
-    waitForLimb(char, "RightUpperArm")
-    waitForLimb(char, "LeftUpperLeg")
-    waitForLimb(char, "RightUpperLeg")
-
-    local function createPart(name, meshId, textureId)
-        local acc = Instance.new("Accessory")
-        acc.Name = name
-
-        local handle = Instance.new("Part")
-        handle.Name = "Handle"
-        handle.Size = Vector3.new(1,1,1)
-        handle.Anchored = false
-        handle.CanCollide = false
-        handle.Massless = true
-        handle.Transparency = 1
-        handle.Parent = acc
-
-        local mesh = Instance.new("SpecialMesh")
-        mesh.MeshId = "rbxassetid://" .. meshId
-        mesh.TextureId = "rbxassetid://" .. textureId
-        mesh.Parent = handle
-
-        acc.Parent = char
-        return handle
-    end
-
-    local function attachLimb(part, target)
-        local a1 = Instance.new("Attachment", part)
-        local a2 = Instance.new("Attachment", target)
-
-        local alignPos = Instance.new("AlignPosition", part)
-        alignPos.Attachment0 = a1
-        alignPos.Attachment1 = a2
-        alignPos.RigidityEnabled = true
-        alignPos.MaxForce = math.huge
-        alignPos.Responsiveness = 200
-
-        local alignOri = Instance.new("AlignOrientation", part)
-        alignOri.Attachment0 = a1
-        alignOri.Attachment1 = a2
-        alignOri.RigidityEnabled = true
-        alignOri.MaxTorque = math.huge
-        alignOri.Responsiveness = 200
-    end
-
-    local limbs = {
-        { name = "Torso", limb = "UpperTorso", mesh = "127552124837034", tex = "131014325980101" },
-        { name = "LeftArm", limb = "LeftUpperArm", mesh = "127552099169285", tex = "131014351553580" },
-        { name = "RightArm", limb = "RightUpperArm", mesh = "127552092594828", tex = "131014345438214" },
-        { name = "LeftLeg", limb = "LeftUpperLeg", mesh = "127552109145440", tex = "131014333823383" },
-        { name = "RightLeg", limb = "RightUpperLeg", mesh = "127552103249321", tex = "131014329470411" },
-    }
-
-    for _, limb in ipairs(limbs) do
-        local part = createPart(limb.name, limb.mesh, limb.tex)
-        local target = char:FindFirstChild(limb.limb)
-        if target then
-            attachLimb(part, target)
-        end
-    end
+    -- Fake rig Krypton limbs
+    limb("Torso","127552124837034","131014325980101","UpperTorso")
+    limb("LeftArm","127552099169285","131014351553580","LeftUpperArm")
+    limb("RightArm","127552092594828","131014345438214","RightUpperArm")
+    limb("LeftLeg","127552109145440","131014333823383","LeftUpperLeg")
+    limb("RightLeg","127552103249321","131014329470411","RightUpperLeg")
+end
 
 -- YES I KNOW ABOVE IS TERRIBLE PLS STOP REMINDING ME 😭 
 
