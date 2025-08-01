@@ -1,34 +1,33 @@
+--// Patched Reanimate Test (Fixed Framework Init) //
+
 Reanimate = getgenv().Framework
 local Character = nil
 
 if Reanimate == "Hatless" then
-local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/hatless/refs/heads/main/hatless"))()
+local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/MelonsStuff/DisbeliefHub/refs/heads/main/Reanimate/Hatless.lua"))()
 Character = Hatless.FakeCharacter
-getgenv().Framework = "Krypton"
-
+elseif getgenv().Framework == "Krypton" then
 KryptonConfiguration = {
-    WaitTime = 0.251,
-    FakeRigScale = 1,
-    DestroyHeightOffset = 50,
-    TeleportOffsetRadius = 20,
-    RefitHatCount = 3,
-    RigName = "Tetris",
-    ReturnOnDeath = true,
-    Reclaim = false, -- 🔧 Fix: Reclaim off to prevent forced movement of non-owned accessories
-    Refit = true,
-    SetCharacter = true,
-    Animations = true,
-    NoCollisions = true,
-    AntiVoiding = false,
-    SetSimulationRadius = true,
-    SimulationRadius = 999999999, -- 🔧 Fix: High sim radius to claim rig control
-    DisableCharacterScripts = true,
-    AccessoryFallbackDefaults = true,
-    OverlayFakeCharacter = true, -- 🔧 Optional fix for tighter overlay
-    LimitHatsPerLimb = false,
-    NoBodyNearby = true,
-    PermanentDeath = true,
-}
+WaitTime = 0.251,
+FakeRigScale = 1,
+DestroyHeightOffset = 50,
+TeleportOffsetRadius = 20,
+RefitHatCount = 2,
+RigName = "Tetris",
+ReturnOnDeath = true,
+Reclaim = false,
+Refit = true,
+SetCharacter = true,
+Animations = true,
+NoCollisions = true,
+AntiVoiding = false,
+SetSimulationRadius = true,
+DisableCharacterScripts = true,
+AccessoryFallbackDefaults = true,
+OverlayFakeCharacter = false,
+LimitHatsPerLimb = false,
+NoBodyNearby = true,
+PermanentDeath = true,
 Hats = {
 ["Torso"] = {
 {Texture = "4819722776", Mesh = "4819720316", Name = "MeshPartAccessory", Offset = CFrame.Angles(0, 0, -0.25)},
@@ -80,7 +79,6 @@ local function ForceNetworkOwnership(char)
         end
     end
 end
-
 -- Inject into FinalizeAccoutrements (will be called after reanimate loads)
 task.spawn(function()
     repeat wait() until getgenv().KryptonLoaded and workspace:FindFirstChild(game.Players.LocalPlayer.Name)
@@ -89,9 +87,10 @@ task.spawn(function()
         ForceNetworkOwnership(char)
     end
 end)
--- Load Krypton
+
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/fixingmodule/refs/heads/main/KryptonFixingModule"))()
 Character = Reanimate:GetCharacter()
+
 elseif Reanimate == "Emperyean" then
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module-/refs/heads/main/EmperyeanReanimate"))()
 Reanimate.Start({
