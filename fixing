@@ -4,28 +4,32 @@ local Character = nil
 if Reanimate == "Hatless" then
 local Hatless = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/hatless/refs/heads/main/hatless"))()
 Character = Hatless.FakeCharacter
-elseif getgenv().Framework == "Krypton" then
+getgenv().Framework = "Krypton"
+
 KryptonConfiguration = {
-WaitTime = 0.251,
-FakeRigScale = 1,
-DestroyHeightOffset = 50,
-TeleportOffsetRadius = 20,
-RefitHatCount = 2,
-RigName = "Tetris",
-ReturnOnDeath = true,
-Reclaim = false,
-Refit = true,
-SetCharacter = true,
-Animations = true,
-NoCollisions = true,
-AntiVoiding = false,
-SetSimulationRadius = true,
-DisableCharacterScripts = true,
-AccessoryFallbackDefaults = true,
-OverlayFakeCharacter = false,
-LimitHatsPerLimb = false,
-NoBodyNearby = true,
-PermanentDeath = true,
+    WaitTime = 0.251,
+    FakeRigScale = 1,
+    DestroyHeightOffset = 50,
+    TeleportOffsetRadius = 20,
+    RefitHatCount = 3,
+    RigName = "Tetris",
+    ReturnOnDeath = true,
+    Reclaim = false, -- 🔧 Fix: Reclaim off to prevent forced movement of non-owned accessories
+    Refit = true,
+    SetCharacter = true,
+    Animations = true,
+    NoCollisions = true,
+    AntiVoiding = false,
+    SetSimulationRadius = true,
+    SimulationRadius = 999999999, -- 🔧 Fix: High sim radius to claim rig control
+    DisableCharacterScripts = true,
+    AccessoryFallbackDefaults = true,
+    OverlayFakeCharacter = true, -- 🔧 Optional fix for tighter overlay
+    LimitHatsPerLimb = false,
+    NoBodyNearby = true,
+    PermanentDeath = true,
+}
+
 Hats = {
 ["Torso"] = {
 {Texture = "4819722776", Mesh = "4819720316", Name = "MeshPartAccessory", Offset = CFrame.Angles(0, 0, -0.25)},
@@ -64,63 +68,31 @@ Hats = {
 },
 },
 }
--- 🔁 Clone accessories thành đồ local để tránh giật
-for _, acc in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-	if acc:IsA("Accessory") then
-		local clone = acc:Clone()
-		acc:Destroy()
-		clone.Parent = game.Players.LocalPlayer.Character
-	end
+-- Inject Network Ownership for accessories after they are loaded
+local function ForceNetworkOwnership(char)
+    for _, acc in pairs(char:GetChildren()) do
+        if acc:IsA("Accessory") then
+            local handle = acc:FindFirstChild("Handle")
+            if handle then
+                pcall(function()
+                    handle:SetNetworkOwner(game.Players.LocalPlayer)
+                end)
+            end
+        end
+    end
 end
 
--- 🛡 Chống reset rig sau khi reanimate
-pcall(function()
-	game:GetService("StarterGui"):SetCore("ResetButtonCallback", false)
-end)
-local hum = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid")
-if hum then
-	hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
-end
-game.Players.LocalPlayer.Character.Archivable = false
-
-local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module/refs/heads/main/module"))()
-Character = Reanimate:GetCharacter()
-
-task.delay(5, function()
-	local real = game.Players.LocalPlayer.Character
-	print("🧩 Real Character Parent:", real and real.Parent)
-end)
-
-
---- ✅ Đồng bộ nhân vật thật theo rig clone để người khác thấy bạn
+-- Inject into FinalizeAccoutrements (will be called after reanimate loads)
 task.spawn(function()
-	while true do
-		task.wait(0.05)
-		local rig = Character
-		local real = game.Players.LocalPlayer.Character
-		if rig and real then
-			local rigRoot = rig:FindFirstChild("HumanoidRootPart")
-			local realRoot = real:FindFirstChild("HumanoidRootPart")
-			if rigRoot and realRoot then
-				realRoot.CFrame = rigRoot.CFrame
-			end
-		end
-	end
+    repeat wait() until getgenv().KryptonLoaded and workspace:FindFirstChild(game.Players.LocalPlayer.Name)
+    local char = workspace:FindFirstChild(game.Players.LocalPlayer.Name)
+    if char then
+        ForceNetworkOwnership(char)
+    end
 end)
-
-
--- ✅ Khoá vật lý và chống giật rig
-for _, part in pairs(Character:GetDescendants()) do
-	if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
-		part.Anchored = false
-		part.Massless = true
-		part.CanCollide = false
-		pcall(function()
-			part:SetNetworkOwner(game.Players.LocalPlayer)
-		end)
-	end
-end
-
+-- Load Krypton
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/fixingmodule/refs/heads/main/KryptonFixingModule"))()
+Character = Reanimate:GetCharacter()
 elseif Reanimate == "Emperyean" then
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module-/refs/heads/main/EmperyeanReanimate"))()
 Reanimate.Start({
@@ -752,12 +724,6 @@ task.spawn(function()
                 if part:IsA("BasePart") then
                     -- Reset physics
                     part.Velocity = Vector3.zero
-part.Massless = true
-part.CanCollide = false
-pcall(function()
-	part:SetNetworkOwner(game.Players.LocalPlayer)
-end)
-
                     part.RotVelocity = Vector3.zero
                     part.AssemblyLinearVelocity = Vector3.zero
                     part.AssemblyAngularVelocity = Vector3.zero
@@ -791,12 +757,6 @@ task.spawn(function()
                     for _, part in pairs(Character:GetDescendants()) do
                         if part:IsA("BasePart") and not part.Anchored then
                             part.Velocity = Vector3.zero
-part.Massless = true
-part.CanCollide = false
-pcall(function()
-	part:SetNetworkOwner(game.Players.LocalPlayer)
-end)
-
                             part.RotVelocity = Vector3.zero
                             part.AssemblyLinearVelocity = Vector3.zero
                             part.AssemblyAngularVelocity = Vector3.zero
@@ -821,12 +781,6 @@ task.spawn(function()
 				for _, part in pairs(Character:GetDescendants()) do
 					if part:IsA("BasePart") and not part.Anchored then
 						part.Velocity = Vector3.zero
-part.Massless = true
-part.CanCollide = false
-pcall(function()
-	part:SetNetworkOwner(game.Players.LocalPlayer)
-end)
-
 						part.RotVelocity = Vector3.zero
 						part.AssemblyLinearVelocity = Vector3.zero
 						part.AssemblyAngularVelocity = Vector3.zero
@@ -910,21 +864,4 @@ task.delay(2, function()
             RootPart.CFrame = RootPart.CFrame + Vector3.new(0, 3, 0)
         end)
     end
-end)
-
-
--- ✅ TỰ KÉO RIG VỀ NẾU BAY QUÁ XA
-task.spawn(function()
-	while true do
-		if Character and Character:FindFirstChild("HumanoidRootPart") then
-			for _, part in pairs(Character:GetDescendants()) do
-				if part:IsA("BasePart") then
-					if (part.Position - Character.HumanoidRootPart.Position).Magnitude > 20 then
-						part.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -1)
-					end
-				end
-			end
-		end
-		task.wait(1)
-	end
 end)
