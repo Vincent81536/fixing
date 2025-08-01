@@ -66,7 +66,7 @@ Hats = {
 },
 },
 }
-local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/fixingmodule/refs/heads/main/KryptonFixingModule"))()
+local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/KadeTheExploiter/Krypton/main/Module.luau"))()
 Character = Reanimate:GetCharacter()
 
 elseif Reanimate == "Emperyean" then
