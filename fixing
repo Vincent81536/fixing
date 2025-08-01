@@ -66,28 +66,6 @@ Hats = {
 },
 },
 }
--- Inject Network Ownership for accessories after they are loaded
-local function ForceNetworkOwnership(char)
-    for _, acc in pairs(char:GetChildren()) do
-        if acc:IsA("Accessory") then
-            local handle = acc:FindFirstChild("Handle")
-            if handle then
-                pcall(function()
-                    handle:SetNetworkOwner(game.Players.LocalPlayer)
-                end)
-            end
-        end
-    end
-end
--- Inject into FinalizeAccoutrements (will be called after reanimate loads)
-task.spawn(function()
-    repeat wait() until getgenv().KryptonLoaded and workspace:FindFirstChild(game.Players.LocalPlayer.Name)
-    local char = workspace:FindFirstChild(game.Players.LocalPlayer.Name)
-    if char then
-        ForceNetworkOwnership(char)
-    end
-end)
-
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/fixingmodule/refs/heads/main/KryptonFixingModule"))()
 Character = Reanimate:GetCharacter()
 
