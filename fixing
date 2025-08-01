@@ -28,7 +28,7 @@ KryptonConfiguration = {
     LimitHatsPerLimb = false,
     NoBodyNearby = true,
     PermanentDeath = true,
-
+}
 Hats = {
 ["Torso"] = {
 {Texture = "4819722776", Mesh = "4819720316", Name = "MeshPartAccessory", Offset = CFrame.Angles(0, 0, -0.25)},
