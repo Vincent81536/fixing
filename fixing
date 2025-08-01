@@ -28,7 +28,6 @@ KryptonConfiguration = {
     LimitHatsPerLimb = false,
     NoBodyNearby = true,
     PermanentDeath = true,
-}
 
 Hats = {
 ["Torso"] = {
@@ -91,7 +90,7 @@ task.spawn(function()
     end
 end)
 -- Load Krypton
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/fixingmodule/refs/heads/main/KryptonFixingModule"))()
+local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/fixingmodule/refs/heads/main/KryptonFixingModule"))()
 Character = Reanimate:GetCharacter()
 elseif Reanimate == "Emperyean" then
 local Reanimate = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/module-/refs/heads/main/EmperyeanReanimate"))()
