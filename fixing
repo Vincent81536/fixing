@@ -1152,6 +1152,22 @@ ToolFling = false,
 }
 
 --local script = game:GetObjects("rbxassetid://96403612951798")[1]
+-- Tạo folder Animations chứa các animation từ ID riêng
+local Animations = Instance.new("Folder")
+Animations.Name = "Animations"
+
+-- Idle animation
+local IdleAnim = Instance.new("Animation")
+IdleAnim.Name = "Idle"
+IdleAnim.AnimationId = "rbxassetid://132196401232277"
+IdleAnim.Parent = Animations
+
+-- Walk animation
+local WalkAnim = Instance.new("Animation")
+WalkAnim.Name = "Walk"
+WalkAnim.AnimationId = "rbxassetid://96901225702491"
+WalkAnim.Parent = Animations
+
 local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -1168,7 +1184,7 @@ Chainsaw.Transparency = 0.95
 Character:FindFirstChild("Animate"):Destroy()
 Humanoid:FindFirstChild("Animator"):Destroy()
 Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 7
-local Animations = script.Animations
+--local Animations = script.Animations
 local Idle, Walking, Running = false, false, false
 local CanSlash = false
 local Debounce = false
