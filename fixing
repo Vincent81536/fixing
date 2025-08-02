@@ -1,7 +1,10 @@
 
--- Minimal Jason Animator Script with only Idle and Walk (R6-only)
+-- Jason WIP (Custom Rebuild): Only Idle, Walk, Jump, Fall animations
 local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
 local Player = Players.LocalPlayer
 
 repeat task.wait() until Player.Character
@@ -9,36 +12,46 @@ local Character = Player.Character
 local Humanoid = Character:WaitForChild("Humanoid")
 local RootPart = Character:WaitForChild("HumanoidRootPart")
 
--- Load AnimatorModule
+-- Load animator module (R6 only)
 local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 
--- Create Animations folder and add Idle + Walk animations
+-- Setup Animations folder
 local Animations = Instance.new("Folder")
 Animations.Name = "Animations"
 Animations.Parent = script
 
-local IdleAnim = Instance.new("Animation")
-IdleAnim.Name = "Idle"
-IdleAnim.AnimationId = "rbxassetid://132196401232277"
-IdleAnim.Parent = Animations
+local function AddAnim(name, id)
+    local anim = Instance.new("Animation")
+    anim.Name = name
+    anim.AnimationId = "rbxassetid://" .. id
+    anim.Parent = Animations
+end
 
-local WalkAnim = Instance.new("Animation")
-WalkAnim.Name = "Walk"
-WalkAnim.AnimationId = "rbxassetid://96901225702491"
-WalkAnim.Parent = Animations
+-- Only keep relevant animations
+AddAnim("Idle", "136078657506707")
+AddAnim("Walk", "130213485744288")
+AddAnim("Jump", "84397577392351")
+AddAnim("Fall", "90270295182351")
 
--- Setup walk speed
+-- WalkSpeed setting (can be adjusted)
 Humanoid.WalkSpeed = 7
 
--- Idle/Walk switching loop
+-- Animation logic
 task.spawn(function()
     while Character and Character.Parent do
-        task.wait(0.15)
-        local flatVelocity = Vector3.new(RootPart.Velocity.X, 0, RootPart.Velocity.Z)
-        if flatVelocity.Magnitude < 1 then
-            AnimatorModule:PlayAnim("Idle")
-        else
+        task.wait(0.1)
+        local velocity = RootPart.Velocity
+        local flat = Vector3.new(velocity.X, 0, velocity.Z)
+        local state = Humanoid:GetState()
+
+        if state == Enum.HumanoidStateType.Jumping then
+            AnimatorModule:PlayAnim("Jump")
+        elseif state == Enum.HumanoidStateType.Freefall then
+            AnimatorModule:PlayAnim("Fall")
+        elseif flat.Magnitude > 1 then
             AnimatorModule:PlayAnim("Walk")
+        else
+            AnimatorModule:PlayAnim("Idle")
         end
     end
 end)
