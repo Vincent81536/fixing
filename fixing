@@ -1153,38 +1153,21 @@ ToolFling = false,
 
 local script = game:GetObjects("rbxassetid://96403612951798")[1]
 local Animations = script:WaitForChild("Animations")
-local AnimatorModule = nil
 
--- Tạo lại animation mới theo ID bạn muốn
-local function ForceReplace(Name, ID)
-    -- Xóa animation cũ nếu có
-    local old = Animations:FindFirstChild(Name)
-    if old then old:Destroy() end
-
-    -- Tạo animation mới
-    local anim = Instance.new("Animation")
-    anim.Name = Name
-    anim.AnimationId = "rbxassetid://" .. ID
-    anim.Parent = Animations
-
-    -- Nếu AnimatorModule đã được gán, thì ép gán lại track mới luôn
-    if AnimatorModule and getmetatable(AnimatorModule) == nil then
-        local character = workspace:FindFirstChild("non")
-        if character then
-            AnimatorModule[character] = AnimatorModule[character] or {}
-            AnimatorModule[character][Name] = AnimatorModule:LoadAnimation(character, anim)
-        end
+local function ReplaceAnimationId(Name, ID)
+    local anim = Animations:FindFirstChild(Name)
+    if anim and anim:IsA("Animation") then
+        anim.AnimationId = "rbxassetid://" .. ID
+        print("✅ Đã cập nhật animation:", Name, "→", ID)
+    else
+        warn("⚠️ Không tìm thấy animation:", Name)
     end
 end
 
--- Ghi đè các animation chính
-ForceReplace("Idle", "132196401232277")
-ForceReplace("Walk", "96901225702491")
-ForceReplace("Jump", "103148094958443")
-ForceReplace("Fall", "90270295182351")
-
-print("✅ Đã thay thế Idle, Walk, Jump, Fall thành công.")
-
+ReplaceAnimationId("Idle", "132196401232277")
+ReplaceAnimationId("Walk", "96901225702491")
+ReplaceAnimationId("Jump", "103148094958443")
+ReplaceAnimationId("Fall", "90270295182351")
 AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
