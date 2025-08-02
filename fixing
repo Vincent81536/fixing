@@ -1152,32 +1152,40 @@ ToolFling = false,
 }
 
 local script = game:GetObjects("rbxassetid://96403612951798")[1]
-local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
--- Ghi đè animation Idle, Walk, Jump, Fall cho nhân vật Chance
 local Animations = script:WaitForChild("Animations")
+local AnimatorModule = nil
 
--- Xóa animation cũ nếu có
-for _, anim in ipairs(Animations:GetChildren()) do
-    if anim:IsA("Animation") and table.find({"Idle", "Walk", "Jump", "Fall"}, anim.Name) then
-        anim:Destroy()
+-- Tạo lại animation mới theo ID bạn muốn
+local function ForceReplace(Name, ID)
+    -- Xóa animation cũ nếu có
+    local old = Animations:FindFirstChild(Name)
+    if old then old:Destroy() end
+
+    -- Tạo animation mới
+    local anim = Instance.new("Animation")
+    anim.Name = Name
+    anim.AnimationId = "rbxassetid://" .. ID
+    anim.Parent = Animations
+
+    -- Nếu AnimatorModule đã được gán, thì ép gán lại track mới luôn
+    if AnimatorModule and getmetatable(AnimatorModule) == nil then
+        local character = workspace:FindFirstChild("non")
+        if character then
+            AnimatorModule[character] = AnimatorModule[character] or {}
+            AnimatorModule[character][Name] = AnimatorModule:LoadAnimation(character, anim)
+        end
     end
 end
 
--- Định nghĩa hàm tạo animation
-local function CreateAnimation(Name, ID)
-    local newAnim = Instance.new("Animation")
-    newAnim.Name = Name
-    newAnim.AnimationId = "rbxassetid://" .. ID
-    newAnim.Parent = Animations
-end
+-- Ghi đè các animation chính
+ForceReplace("Idle", "132196401232277")
+ForceReplace("Walk", "96901225702491")
+ForceReplace("Jump", "103148094958443")
+ForceReplace("Fall", "90270295182351")
 
--- Tạo lại các animation với ID bạn cung cấp
-CreateAnimation("Idle", "132196401232277")
-CreateAnimation("Walk", "96901225702491")
-CreateAnimation("Jump", "103148094958443")
-CreateAnimation("Fall", "90270295182351")
+print("✅ Đã thay thế Idle, Walk, Jump, Fall thành công.")
 
-print("✅ Ghi đè Idle, Walk, Jump, Fall thành công.")
+AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local Player = game.Players.LocalPlayer
