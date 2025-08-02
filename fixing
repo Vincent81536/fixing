@@ -144,12 +144,12 @@ Animations.Name = "Animations"
 
 local IdleAnim = Instance.new("Animation")
 IdleAnim.Name = "Idle"
-IdleAnim.AnimationId = "rbxassetid://132196401232277"
+IdleAnim.AnimationId = "rbxassetid://136078657506707"
 IdleAnim.Parent = Animations
 
 local WalkAnim = Instance.new("Animation")
 WalkAnim.Name = "Walk"
-WalkAnim.AnimationId = "rbxassetid://96901225702491"
+WalkAnim.AnimationId = "rbxassetid://130213485744288"
 WalkAnim.Parent = Animations
 
 local InputBegan = UserInputService.InputBegan
