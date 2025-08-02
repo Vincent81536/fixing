@@ -1151,55 +1151,8 @@ Timeout = 0.25,
 ToolFling = false,
 }
 
-local script = game:GetObjects("rbxassetid://96403612951798")[1]
--- Ghi đè animation bằng cách xóa và tạo lại
-local Animations = script:WaitForChild("Animations")
-
-local function ReplaceAnimation(Name, NewId)
-    local old = Animations:FindFirstChild(Name)
-    if old then old:Destroy() end
-
-    local new = Instance.new("Animation")
-    new.Name = Name
-    new.AnimationId = "rbxassetid://" .. NewId
-    new.Parent = Animations
-end
-
-ReplaceAnimation("Idle", "132196401232277")
-ReplaceAnimation("Walk", "96901225702491")
-ReplaceAnimation("Jump", "103148094958443")
-ReplaceAnimation("Fall", "90270295182351")
-
-print("✅ Đã ghi đè animation thành công.")
-
-local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
-task.wait(2) -- Chờ asset load và animator setup xong
-
--- Ghi đè animation bằng cách stop và thay trực tiếp
-local Animations = script:WaitForChild("Animations")
-local Humanoid = workspace:FindFirstChild("non") and workspace.non:FindFirstChildOfClass("Humanoid")
-local Animator = Humanoid and Humanoid:FindFirstChildOfClass("Animator")
-
-if Animator then
-    for _, track in pairs(Animator:GetPlayingAnimationTracks()) do
-        track:Stop()
-        track:Destroy()
-    end
-
-    local function ForceAnim(Name, ID)
-        local anim = Instance.new("Animation")
-        anim.Name = Name
-        anim.AnimationId = "rbxassetid://" .. ID
-        local track = Animator:LoadAnimation(anim)
-        track:Play()
-    end
-
-    -- Chạy Idle mới của bạn
-    ForceAnim("Idle", "132196401232277")
-end
-
-print("✅ Đã ép chạy animation Idle mới.")
-
+local script = game:GetObjects("rbxassetid://119432910147127")[1]
+AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local Player = game.Players.LocalPlayer
