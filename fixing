@@ -36,7 +36,6 @@
 
 // [PAID] Hats:
 https://www.roblox.com/catalog/138480343439270/Two-Time-buddy
-https://www.roblox.com/catalog/106118632964784/Jason-Vorhees-Machete-Area-51-Right
 https://www.roblox.com/catalog/90928878496116/Jason
 
 Find the others here:
@@ -86,9 +85,6 @@ Name = "AI Cat Dance"
 },
 }
 
-if game.CoreGui:FindFirstChild("TemporaryUI") then
-game.CoreGui:FindFirstChild("TemporaryUI"):Destroy()
-end
 
 do
 local Accessories = {}
@@ -130,10 +126,6 @@ local CharacterAdded = LocalPlayer.CharacterAdded
 local ConnectDiedSignalBackend = LocalPlayer.ConnectDiedSignalBackend
 local Mouse = LocalPlayer:GetMouse()
 local Kill = LocalPlayer.Kill
-local RunService = FindFirstChildOfClass(game, "RunService")
-local PostSimulation = RunService.PostSimulation
-local PreRender = RunService.PreRender
-local PreSimulation = RunService.PreSimulation
 local StarterGui = FindFirstChildOfClass(game, "StarterGui")
 local GetCoreGuiEnabled = StarterGui.GetCoreGuiEnabled
 local SetCore = StarterGui.SetCore
@@ -171,7 +163,6 @@ local ChangeState = Humanoid.ChangeState
 local EquipTool = Humanoid.EquipTool
 local GetAppliedDescription = Humanoid.GetAppliedDescription
 local GetPlayingAnimationTracks = Humanoid.GetPlayingAnimationTracks
-local LoadAnimation = Humanoid.LoadAnimation
 local Move = Humanoid.Move
 local UnequipTools = Humanoid.UnequipTools
 local ScaleTo = HumanoidModel.ScaleTo
@@ -180,7 +171,6 @@ local IsFirst = false
 local IsHealthEnabled = nil
 local IsLockCenter = false
 local IsRegistered = false
-local IsRunning = false
 local LastTime = nil
 
 local math = math
@@ -224,6 +214,21 @@ local replicatesignal = replicatesignal
 local Rig = nil
 local RigHumanoid = nil
 local RigHumanoidRootPart = nil
+
+-- Animations folder manually defined
+local Animations = Instance.new("Folder")
+Animations.Name = "Animations"
+
+local IdleAnim = Instance.new("Animation")
+IdleAnim.Name = "Idle"
+IdleAnim.AnimationId = "rbxassetid://132196401232277"
+IdleAnim.Parent = Animations
+
+local WalkAnim = Instance.new("Animation")
+WalkAnim.Name = "Walk"
+WalkAnim.AnimationId = "rbxassetid://96901225702491"
+WalkAnim.Parent = Animations
+
 
 local sethiddenproperty = sethiddenproperty
 local setscriptable = setscriptable
@@ -643,7 +648,6 @@ for Index, AnimationTrack in next, GetPlayingAnimationTracks(Humanoid) do
 AnimationTrack:Stop()
 end
 
-LoadAnimation(Humanoid, Humanoid.RigType == R6 and R6Animation or R15Animation):Play(0)
 
 pcall(NewIndex, Workspace, "FallenPartsDestroyHeight", nan)
 
@@ -887,9 +891,7 @@ end
 end
 
 Start = function(Options)
-if not IsRunning then
 IsFirst = true
-IsRunning = true
 
 Options = Options or {}
 OptionsAccessories = Options.Accessories or {}
@@ -939,8 +941,6 @@ Part.Parent = Rig
 end
 
 CreateObject("Reanimate_Dummy")
-CreateObject("Reanimate_Machete")
-CreateObject("Reanimate_Chainsaw")
 
 for Index, Descendant in next, GetDescendants(Rig) do
 if IsA(Descendant, "Attachment") then
@@ -1009,9 +1009,7 @@ end
 end
 
 Stop = function()
-if IsRunning then
 IsFirst = false
-IsRunning = false
 
 for Index, Highlight in Highlights do
 Destroy(Highlight)
@@ -1097,20 +1095,12 @@ Accessories = {
 { MeshId = "14768666349", Name = "Torso", Offset = CFrame.Angles(0, 0, 0), TextureId = "14768664565" },
 { MeshId = "14768684979", Names = { "Left Arm", "Right Arm"}, Offset = CFrame.Angles(0, 0, 1.57), TextureId = "14768683674" },
 -- Align Set 1
-{ MeshId = "71367027767297", TextureId = "86745095380120", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(0.75, 1.57, 0)},--84451219120140
-{ MeshId = "82149851412853", TextureId = "130342983866835", Name = "Reanimate_Machete", Offset = CFrame.Angles(Rad(0), 0, Rad(180))},--84451219120140
 { MeshId = "127403731179315", TextureId = "136546192561005", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},--84451219120140
 -- Align Set 2
-{ MeshId = "14952028037", TextureId = "14952070513", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(Rad(-25), Rad(0), Rad(180))},
-{ MeshId = "5555532600", TextureId = "5555532634", Name = "Reanimate_Machete", Offset = CFrame.new(0, 0, 0) * CFrame.Angles(Rad(0), Rad(0), Rad(0))},
 { MeshId = "8233279368", TextureId = "8233279473", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},
 -- Align Set 3
-{ MeshId = "107492494696754", TextureId = "74020622641771", Name = "Reanimate_Chainsaw", Offset = CFrame.new(0.5, 0, 0) * CFrame.Angles(Rad(-155), Rad(90), Rad(0))},
-{ MeshId = "111053060100658", TextureId = "112732772594408", Name = "Reanimate_Machete", Offset = CFrame.new(0, 0.55, -0.15) * CFrame.Angles(Rad(0), Rad(0), Rad(0))},
 { MeshId = "129034819260278", TextureId = "103190156827623", Name = "Reanimate_Dummy", Offset = CFrame.new(0, 0.25, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},
 -- Free
-{ MeshId = "7547179386", TextureId = "7547152243", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(2.56, 1.57, 0)},--84451219120140
-{ MeshId = "11524268570", TextureId = "11524268595", Name = "Reanimate_Machete", Offset = CFrame.new(0.15, 1.05, -1) * CFrame.Angles(Rad(-75), 0, Rad(180))},--84451219120140
 { MeshId = "12495661615", TextureId = "12495666203", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0)},--84451219120140
 },
 ApplyDescription = true,
@@ -1151,55 +1141,6 @@ Timeout = 0.25,
 ToolFling = false,
 }
 
---local script = game:GetObjects("rbxassetid://96403612951798")[1]
--- Tạo folder Animations chứa các animation từ ID riêng
-local Animations = Instance.new("Folder")
-Animations.Name = "Animations"
-
--- Idle animation
-local IdleAnim = Instance.new("Animation")
-IdleAnim.Name = "Idle"
-IdleAnim.AnimationId = "rbxassetid://132196401232277"
-IdleAnim.Parent = Animations
-
--- Walk animation
-local WalkAnim = Instance.new("Animation")
-WalkAnim.Name = "Walk"
-WalkAnim.AnimationId = "rbxassetid://96901225702491"
-WalkAnim.Parent = Animations
-
-local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local Player = game.Players.LocalPlayer
-local Character = workspace.non
-local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-local RootPart = Character:FindFirstChild("HumanoidRootPart")
-local Machete = script.Weapons:WaitForChild("Machete"):Clone()
-Machete.Parent = Character
-Machete.Transparency = 0.95
-local Chainsaw = script.Weapons:WaitForChild("Chainsaw"):Clone()
-Chainsaw.Parent = Character
-Chainsaw.Transparency = 0.95
-Character:FindFirstChild("Animate"):Destroy()
-Humanoid:FindFirstChild("Animator"):Destroy()
-Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 7
---local Animations = script.Animations
-local Idle, Walking, Running = false, false, false
-local CanSlash = false
-local Debounce = false
-local Shift = false
-local Enraged = false
-local Emoting = false
-local GUI = script.UI:WaitForChild("TemporaryUI")
-GUI.Parent = game.CoreGui
-local EmoteFrame = GUI:WaitForChild("EmoteMenuHolder")
-local EmoteRadial = EmoteFrame:WaitForChild("RadialMenu")
-local RadialDial = EmoteRadial:WaitForChild("RadialDial")
-local AbilityContainer = GUI:WaitForChild("AbilityContainer")
-EmoteFrame.Visible = false
-GUI.PlayerInfo.PlayerIcon.Image = "rbxthumb://type=AvatarHeadShot&id=" .. Player.UserId .. "&w=420&h=420"
-
 local function CreateWeld(Parent, Part0, Part1)
 local Weld = Instance.new("Weld")
 Weld.Parent = Parent
@@ -1207,27 +1148,13 @@ Weld.Part0 = Part0
 Weld.Part1 = Part1
 end
 
-local ChainsawWeld = script.Welds.Chainsaw:Clone()
-ChainsawWeld.Parent = RootPart
-ChainsawWeld.Part0 = RootPart
-ChainsawWeld.Part1 = Chainsaw
-
 local DummyWeld = Instance.new("Weld")
 DummyWeld.Parent = RootPart
 DummyWeld.Part0 = RootPart
 DummyWeld.Part1 = Character.Reanimate_Dummy
 DummyWeld.C0 = CFrame.new(0, -15, 0)
 
-local MacheteWeld = script.Welds.Machete:Clone()
-MacheteWeld.Parent = RootPart
-MacheteWeld.Part0 = RootPart
-MacheteWeld.Part1 = Machete
 
-CreateWeld(Character, Machete, Character:FindFirstChild("Reanimate_Machete"))
-CreateWeld(Character, Chainsaw, Character:FindFirstChild("Reanimate_Chainsaw"))
-
-local Dummy = script.Extras.NPC
-for i, v in ipairs(Dummy:GetDescendants()) do
 if v:IsA("Accessory") or v:IsA("Decal") or v:IsA("Shirt") or v:IsA("Pants") then
 v:Destroy()
 else if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
@@ -1241,7 +1168,6 @@ if not AnimatorModule[Rig] then
 AnimatorModule[Rig] = {}
 end
 if not AnimatorModule[Rig][Animation.Name] then
-AnimatorModule[Rig][Animation.Name] = AnimatorModule:LoadAnimation(Rig, Animation)
 end
 for Animation, Track in next, AnimatorModule[Rig] do
 if Animation ~= Animation.Name then
@@ -1258,12 +1184,10 @@ if not AnimatorModule[Rig] then
 AnimatorModule[Rig] = {}
 end
 if not AnimatorModule[Rig][Anim.Name] then
-AnimatorModule[Rig][Anim.Name] = AnimatorModule:LoadAnimation(Rig, Anim)
 end
 AnimatorModule[Rig][Anim.Name]:Stop()
 end
 
-local function Execute()
 if Debounce then return end
 Debounce = true
 local NPC = Dummy:Clone()
@@ -1288,7 +1212,6 @@ RootPart.Anchored = false
 Debounce = false
 end
 
-local function Gash()
 if Debounce then return end
 Debounce = true
 local NPC = Dummy:Clone()
@@ -1297,8 +1220,6 @@ local NPCRootPart = NPC:FindFirstChild("HumanoidRootPart")
 NPCRootPart.Anchored = true
 RootPart.Anchored = true
 NPCRootPart.CFrame = CFrame.lookAt(RootPart.Position + (RootPart.CFrame.LookVector * 2.5), RootPart.Position) * CFrame.new(0, 0, -3) * CFrame.Angles(0, math.rad(180), 0)
-PlayAnim(Character, Animations.GashedKiller, 0, 2)
-PlayAnim(NPC, Animations.GashedPlayer, 0, 2)
 DummyWeld.Part0 = NPC:FindFirstChild("Torso")
 DummyWeld.Part1 = Character:FindFirstChild("Reanimate_Dummy")
 DummyWeld.C0 = CFrame.new(0, 0, 0)
@@ -1313,9 +1234,7 @@ end
 
 local function ToggleRage()
 if Debounce then return end
-Enraged = not Enraged
 Debounce = true
-if Enraged then
 PlayAnim(Character, Animations.Enrage, 0, 1)
 task.wait(0.15)
 task.wait(1)
@@ -1323,25 +1242,19 @@ Debounce = false
 if RootPart.Velocity.Magnitude < 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = true
 Walking = false
-Running = false
-PlayAnim(Character, Animations.EnragedIdle, 0, 1)
 elseif RootPart.Velocity.Magnitude > 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = false
 Walking = true
-Running = false
-PlayAnim(Character, Animations.EnragedWalk, 0, 1)
 end	
 else
 Debounce = false
 if RootPart.Velocity.Magnitude < 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = true
 Walking = false
-Running = false
 PlayAnim(Character, Animations.Idle, 0, 1)
 elseif RootPart.Velocity.Magnitude > 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = false
 Walking = true
-Running = false
 PlayAnim(Character, Animations.Walk, 0, 1)
 end	
 end
@@ -1351,54 +1264,39 @@ local function Slash()
 if Debounce then return end
 Debounce = true
 CanSlash = true
-PlayAnim(Character, Animations.Swing, 0, 1)
 task.wait(0.65)
 Debounce = false
 CanSlash = false
 if RootPart.Velocity.Magnitude < 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = true
 Walking = false
-Running = false
-if Enraged then
-PlayAnim(Character, Animations.EnragedIdle, 0, 1)
 else
 PlayAnim(Character, Animations.Idle, 0, 1)
 end
 elseif RootPart.Velocity.Magnitude > 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = false
 Walking = true
-Running = false
-if Enraged then
-PlayAnim(Character, Animations.EnragedWalk, 0, 1)
 else
 PlayAnim(Character, Animations.Walk, 0, 1)
 end
 end 
 end
 
-local function Behead()
 if Debounce then return end
 Debounce = true
 CanSlash = true
-PlayAnim(Character, Animations.Behead, 0, 1)
 task.wait(0.85)
 Debounce = false
 CanSlash = false
 if RootPart.Velocity.Magnitude < 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = true
 Walking = false
-Running = false
-if Enraged then
-PlayAnim(Character, Animations.EnragedIdle, 0, 1)
 else
 PlayAnim(Character, Animations.Idle, 0, 1)
 end
 elseif RootPart.Velocity.Magnitude > 1 and workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character) then
 Idle = false
 Walking = true
-Running = false
-if Enraged then
-PlayAnim(Character, Animations.EnragedWalk, 0, 1)
 else
 PlayAnim(Character, Animations.Walk, 0, 1)
 end
@@ -1406,8 +1304,6 @@ end
 end
 
 UserInputService.InputBegan:Connect(function(Key)
-if Emoting and Key.KeyCode ~= Enum.KeyCode.G then return end
-if Key.KeyCode == Enum.KeyCode.G then
 Emoting = not Emoting
 if Emoting then
 EmoteFrame.Visible = true
@@ -1422,21 +1318,12 @@ end
 if Key.UserInputType == Enum.UserInputType.MouseButton1 then
 Slash()
 end
-if Key.KeyCode == Enum.KeyCode.R then
 ToggleRage()
 end 
-if Key.KeyCode == Enum.KeyCode.T then
-Execute()
 end 
-if Key.KeyCode == Enum.KeyCode.E then
-Gash()
 end
-if Key.KeyCode == Enum.KeyCode.Q then
-Behead()
 end 
-if Key.KeyCode == Enum.KeyCode.LeftShift or Key.KeyCode == Enum.KeyCode.RightShift then
 Shift = true
-if Enraged == false then
 Humanoid.WalkSpeed = 24
 else
 Humanoid.WalkSpeed = 35
@@ -1445,9 +1332,7 @@ end
 end)
 
 UserInputService.InputEnded:Connect(function(Key)
-if Key.KeyCode == Enum.KeyCode.LeftShift or Key.KeyCode == Enum.KeyCode.RightShift then
 Shift = false
-if Enraged == false then
 Humanoid.WalkSpeed = 8
 else
 Humanoid.WalkSpeed = 13
@@ -1459,19 +1344,14 @@ AbilityContainer.Slash.MouseButton1Down:Connect(function()
 Slash()
 end)
 
-AbilityContainer.Behead.MouseButton1Down:Connect(function()
-Behead()
 end)
 
 AbilityContainer.RagingPace.MouseButton1Down:Connect(function()
 ToggleRage()
 end)
 
-AbilityContainer.GashingWound.MouseButton1Down:Connect(function()
-Gash()
 end)
 
-Machete.Touched:Connect(function(Hit)
 if not CanSlash then return end
 if Hit:IsDescendantOf(Character) then return end
 local Target = Hit.Parent
@@ -1482,10 +1362,6 @@ end
 end)
 
 local function CreateAnimation(Name, ID)
-local New = game:GetObjects("rbxassetid://"..ID)[1]
-New.Parent = Animations
-New.Name = Name
-end
 
 for i = 1, 8 do
 local EmoteButton = EmoteRadial.Attach:FindFirstChild(tostring(i))
@@ -1498,7 +1374,6 @@ PlayAnim(Character, Animations:FindFirstChild(Emotes["Emote" .. i].Name), 0, 1)
 end)
 end
 
-game:GetService("RunService").Heartbeat:Connect(function()
 for i,v in pairs(Character:FindFirstChildOfClass("Humanoid"):GetPlayingAnimationTracks())do
 v:Stop(0)
 end
@@ -1509,7 +1384,6 @@ RadialDial.Rotation = math.deg(math.atan2(Rotation.Y, Rotation.X)) - 64
 if Debounce then
 StopAnim(Character,Animations.Idle)
 StopAnim(Character,Animations.Walk)
-StopAnim(Character,Animations.Run)
 end
 local HitFloor, HitPosition = workspace:FindPartOnRay(Ray.new(RootPart.Position, (CFrame.new(RootPart.Position, RootPart.Position + Vector3.new(0, -1, 0))).LookVector * 4), Character)
 local TorsoVelocity = (RootPart.Velocity).Magnitude
@@ -1519,37 +1393,26 @@ if Idle == false then
 Idle = true
 PlayAnim(Character,Animations.Idle, 0, 1)
 end
-if Enraged == true and Idle == false then
 Idle = true
-PlayAnim(Character,Animations.EnragedIdle, 0, 1)
 elseif Idle == false then
 Idle = true
 PlayAnim(Character,Animations.Idle, 0, 1)
 end
 Walking = false
-Running = false
-StopAnim(Character,Animations.Run)
 StopAnim(Character,Animations.Walk)
 elseif TorsoVelocity > 1 and HitFloor ~= nil and Debounce == false and Shift == true then
-if Running == false then
-Running = true
-PlayAnim(Character,Animations.Run, 0, 1)
 end
 Idle = false
 Walking = false
 StopAnim(Character,Animations.Walk)
 StopAnim(Character,Animations.Idle)
 elseif TorsoVelocity > 1 and HitFloor ~= nil and Debounce == false then
-if Enraged == true and Walking == false then
 Walking = true
-PlayAnim(Character, Animations.EnragedWalk, 0, 1)
 elseif Walking == false then
 Walking = true
 PlayAnim(Character, Animations.Walk, 0, 1)
 end
 Idle = false
-Running = false
-StopAnim(Character,Animations.Run)
 StopAnim(Character,Animations.Idle)
 end
 end)
