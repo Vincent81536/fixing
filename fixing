@@ -1151,8 +1151,8 @@ Timeout = 0.25,
 ToolFling = false,
 }
 
---local script = game:GetObjects("rbxassetid://96403612951798")[1]
-local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))() [1]
+local script = game:GetObjects("rbxassetid://96403612951798")[1]
+local AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local Player = game.Players.LocalPlayer
@@ -1537,5 +1537,3 @@ StopAnim(Character,Animations.Run)
 StopAnim(Character,Animations.Idle)
 end
 end)
-
-1
