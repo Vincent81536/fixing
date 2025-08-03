@@ -928,22 +928,6 @@ Rig.Name = "non"
 RigHumanoid = Rig.Humanoid
 RigHumanoidRootPart = Rig.HumanoidRootPart
 Rig.Parent = Workspace
--- Giữ rig ổn định nhưng vẫn cho phép animation
-for _, part in ipairs(Rig:GetDescendants()) do
-    if part:IsA("BasePart") then
-        part.CanCollide = false
-        part.Massless = true
-        part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
-    end
-end
-game:GetService("RunService").Heartbeat:Connect(function()
-    for _, part in ipairs(Rig:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.AssemblyLinearVelocity = Vector3.zero
-            part.AssemblyAngularVelocity = Vector3.zero
-        end
-    end
-end)
 
 local function CreateObject(Name)
 local Part = Instance.new("Part")
