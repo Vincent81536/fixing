@@ -1115,12 +1115,12 @@ Accessories = {
 },
 ApplyDescription = true,
 BreakJointsDelay = 0.255,
-ClickFling = true,
+ClickFling = false,
 DefaultFlingOptions = {
 HatFling = false,
 Highlight = true,
-PredictionFling = true,
-Timeout = 0.25,
+PredictionFling = false,
+Timeout = 0,
 ToolFling = false,
 },
 DisableCharacterCollisions = true,
@@ -1461,7 +1461,7 @@ if Hit:IsDescendantOf(Character) then return end
 local Target = Hit.Parent
 local TargetHumanoid = Target:FindFirstChildOfClass("Humanoid")
 if TargetHumanoid then
-Empyrean.Fling(Hit, DefaultFlingOptions)
+--Empyrean.Fling(Hit, DefaultFlingOptions)
 end
 end)
 
