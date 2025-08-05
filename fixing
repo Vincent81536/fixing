@@ -1102,7 +1102,7 @@ Accessories = {
 { MeshId = "71367027767297", TextureId = "86745095380120", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(0.75, 1.57, 0)},--84451219120140
 { MeshId = "82149851412853", TextureId = "130342983866835", Name = "Reanimate_Machete", Offset = CFrame.Angles(Rad(0), 0, Rad(180))},--84451219120140
 { MeshId = "127403731179315", TextureId = "136546192561005", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},--84451219120140
-{ MeshId = "17497545470", TextureId = "17497545484", Name = "Reanimate_CustomSword", Offset = CFrame.Angles(Rad(0), 0, Rad(180))},
+{ MeshId = "17497545470", TextureId = "17497545484", Name = "Reanimate_CustomSword", Offset = CFrame.new(28.8, 0.742, -58.8) * CFrame.Angles(math.rad(14.999), 0, 0))},
 
 { MeshId = "14952028037", TextureId = "14952070513", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(Rad(-25), Rad(0), Rad(180))},
 { MeshId = "5555532600", TextureId = "5555532634", Name = "Reanimate_Machete", Offset = CFrame.new(0, 0, 0) * CFrame.Angles(Rad(0), Rad(0), Rad(0))},
@@ -1117,7 +1117,7 @@ Accessories = {
 { MeshId = "7547179386", TextureId = "7547152243", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(2.56, 1.57, 0)},--84451219120140
 { MeshId = "11524268570", TextureId = "11524268595", Name = "Reanimate_Machete", Offset = CFrame.new(0.15, 1.05, -1) * CFrame.Angles(Rad(-75), 0, Rad(180))},--84451219120140
 { MeshId = "12495661615", TextureId = "12495666203", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0)},--84451219120140
---{ MeshId = "17497545470", TextureId = "17497545484", Name = "Reanimate_CustomSword", Offset = CFrame.new(0, -1, -1.5) * CFrame.Angles(math.rad(20), 0, 0)},
+--{ MeshId = "17497545470", TextureId = "17497545484", Name = "Reanimate_CustomSword", Offset = CFrame.new(28.8, 0.742, -58.8) * CFrame.Angles(math.rad(14.999), 0, 0))},
 },
 ApplyDescription = true,
 BreakJointsDelay = 0.255,
