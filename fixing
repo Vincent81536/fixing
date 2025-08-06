@@ -941,6 +941,7 @@ end
 CreateObject("Reanimate_Dummy")
 CreateObject("Reanimate_Machete")
 CreateObject("Reanimate_Chainsaw")
+CreateObject("Reanimate_CustomSword")
 
 for Index, Descendant in next, GetDescendants(Rig) do
 if IsA(Descendant, "Attachment") then
@@ -1166,6 +1167,9 @@ Machete.Transparency = 0.95
 local Chainsaw = script.Weapons:WaitForChild("Chainsaw"):Clone()
 Chainsaw.Parent = Character
 Chainsaw.Transparency = 0.95
+local CustomSword = script.Weapons:WaitForChild("CustomSword"):Clone()
+Chainsaw.Parent = Character
+Chainsaw.Transparency = 0.95
 Character:FindFirstChild("Animate"):Destroy()
 Humanoid:FindFirstChild("Animator"):Destroy()
 Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 7
@@ -1208,8 +1212,14 @@ MacheteWeld.Parent = RootPart
 MacheteWeld.Part0 = RootPart
 MacheteWeld.Part1 = Machete
 
+local MacheteWeld = script.Welds.Machete:Clone()
+CustomSwordWeld.Parent = RootPart
+CustomSwordWeld.Part0 = RootPart
+CustomSwordWeld.Part1 = CustomSword
+
 CreateWeld(Character, Machete, Character:FindFirstChild("Reanimate_Machete"))
 CreateWeld(Character, Chainsaw, Character:FindFirstChild("Reanimate_Chainsaw"))
+CreateWeld(Character,CustomSword, Character:FindFirstChild("Reanimate_CustomSword"))
 
 local Dummy = script.Extras.NPC
 for i, v in ipairs(Dummy:GetDescendants()) do
@@ -1457,6 +1467,16 @@ Gash()
 end)
 
 Machete.Touched:Connect(function(Hit)
+if not CanSlash then return end
+if Hit:IsDescendantOf(Character) then return end
+local Target = Hit.Parent
+local TargetHumanoid = Target:FindFirstChildOfClass("Humanoid")
+if TargetHumanoid then
+Empyrean.Fling(Hit, DefaultFlingOptions)
+end
+end)
+
+CustomSword.Touched:Connect(function(Hit)
 if not CanSlash then return end
 if Hit:IsDescendantOf(Character) then return end
 local Target = Hit.Parent
