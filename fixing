@@ -1153,7 +1153,7 @@ Timeout = 0.25,
 ToolFling = false,
 }
 
-local script = game:GetObjects("rbxassetid://82365252373189")[1]
+local script = game:GetObjects("rbxassetid://137292161584919")[1]
 AnimatorModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/1xtest/refs/heads/main/1xtest"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
