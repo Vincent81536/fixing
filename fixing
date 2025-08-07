@@ -1100,12 +1100,13 @@ Accessories = {
 -- Align Set 1
 { MeshId = "71367027767297", TextureId = "86745095380120", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(0.75, 1.57, 0)},--84451219120140
 { MeshId = "82149851412853", TextureId = "130342983866835", Name = "Reanimate_Machete", Offset = CFrame.Angles(Rad(0), 0, Rad(180))},--84451219120140
+{ MeshId = "114911890544238", TextureId = "122880881834111", Name = "Reanimte_CustomSword", Offset = CFrame.new(0, -1.5, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0))},
 { MeshId = "127403731179315", TextureId = "136546192561005", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},--84451219120140
 -- Align Set 2
 { MeshId = "14952028037", TextureId = "14952070513", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(Rad(-25), Rad(0), Rad(180))},
 { MeshId = "5555532600", TextureId = "5555532634", Name = "Reanimate_Machete", Offset = CFrame.new(0, 0, 0) * CFrame.Angles(Rad(0), Rad(0), Rad(0))},
 { MeshId = "8233279368", TextureId = "8233279473", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},
-
+-- Align Set 3
 { MeshId = "107492494696754", TextureId = "74020622641771", Name = "Reanimate_Chainsaw", Offset = CFrame.new(0.5, 0, 0) * CFrame.Angles(Rad(-155), Rad(90), Rad(0))},
 { MeshId = "111053060100658", TextureId = "112732772594408", Name = "Reanimate_Machete", Offset = CFrame.new(0, 0.55, -0.15) * CFrame.Angles(Rad(0), Rad(0), Rad(0))},
 { MeshId = "129034819260278", TextureId = "103190156827623", Name = "Reanimate_Dummy", Offset = CFrame.new(0, 0.25, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},
@@ -1152,7 +1153,7 @@ Timeout = 0.25,
 ToolFling = false,
 }
 
-local script = game:GetObjects("rbxassetid://137292161584919")[1]
+local script = game:GetObjects("rbxassetid://108941487938541")[1]
 AnimatorModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/1xtest/refs/heads/main/1xtest"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
