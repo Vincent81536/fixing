@@ -941,7 +941,6 @@ end
 CreateObject("Reanimate_Dummy")
 CreateObject("Reanimate_Machete")
 CreateObject("Reanimate_Chainsaw")
-CreateObject("Reanimate_CustomSword")
 
 for Index, Descendant in next, GetDescendants(Rig) do
 if IsA(Descendant, "Attachment") then
@@ -1100,7 +1099,6 @@ Accessories = {
 -- Align Set 1
 { MeshId = "71367027767297", TextureId = "86745095380120", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(0.75, 1.57, 0)},--84451219120140
 { MeshId = "82149851412853", TextureId = "130342983866835", Name = "Reanimate_Machete", Offset = CFrame.Angles(Rad(0), 0, Rad(180))},--84451219120140
-{ MeshId = "114911890544238", TextureId = "122880881834111", Name = "Reanimte_CustomSword", Offset = CFrame.new(0, -1.5, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0))},
 { MeshId = "127403731179315", TextureId = "136546192561005", Name = "Reanimate_Dummy", Offset = CFrame.new(0, -1, 0) * CFrame.Angles(Rad(0), Rad(180), Rad(0))},--84451219120140
 -- Align Set 2
 { MeshId = "14952028037", TextureId = "14952070513", Name = "Reanimate_Chainsaw", Offset = CFrame.Angles(Rad(-25), Rad(0), Rad(180))},
@@ -1153,8 +1151,8 @@ Timeout = 0.25,
 ToolFling = false,
 }
 
-local script = game:GetObjects("rbxassetid://108941487938541")[1]
-AnimatorModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vincent81536/1xtest/refs/heads/main/1xtest"))()
+local script = game:GetObjects("rbxassetid://119432910147127")[1]
+AnimatorModule = loadstring(game:HttpGet("https://gist.githubusercontent.com/MelonsStuff/51f4829e57f3c5d5357f0be11d39d081/raw/dd06c57e154231594a3bf33388e1085d8554c1d7/JasonAnimator.lua"))()
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local Player = game.Players.LocalPlayer
@@ -1167,9 +1165,6 @@ Machete.Transparency = 0.95
 local Chainsaw = script.Weapons:WaitForChild("Chainsaw"):Clone()
 Chainsaw.Parent = Character
 Chainsaw.Transparency = 0.95
-local CustomSword = script.Weapons:WaitForChild("CustomSword"):Clone()
-CustomSword.Parent = Character
-CustomSword.Transparency = 0.95
 Character:FindFirstChild("Animate"):Destroy()
 Humanoid:FindFirstChild("Animator"):Destroy()
 Character:FindFirstChildOfClass("Humanoid").WalkSpeed = 7
@@ -1212,16 +1207,8 @@ MacheteWeld.Parent = RootPart
 MacheteWeld.Part0 = RootPart
 MacheteWeld.Part1 = Machete
 
-local CustomSwordWeld = script.Welds.CustomSword:Clone()
-CustomSwordWeld.Parent = RootPart
-CustomSwordWeld.Part0 = RootPart
-CustomSwordWeld.Part1 = CustomSword
-
-
 CreateWeld(Character, Machete, Character:FindFirstChild("Reanimate_Machete"))
 CreateWeld(Character, Chainsaw, Character:FindFirstChild("Reanimate_Chainsaw"))
-CreateWeld(Character, CustomSword, Character:FindFirstChild("Reanimate_CustomSword"))
-
 
 local Dummy = script.Extras.NPC
 for i, v in ipairs(Dummy:GetDescendants()) do
@@ -1469,16 +1456,6 @@ Gash()
 end)
 
 Machete.Touched:Connect(function(Hit)
-if not CanSlash then return end
-if Hit:IsDescendantOf(Character) then return end
-local Target = Hit.Parent
-local TargetHumanoid = Target:FindFirstChildOfClass("Humanoid")
-if TargetHumanoid then
-Empyrean.Fling(Hit, DefaultFlingOptions)
-end
-end)
-
-CustomSword.Touched:Connect(function(Hit)
 if not CanSlash then return end
 if Hit:IsDescendantOf(Character) then return end
 local Target = Hit.Parent
